@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>BETTER - XC MTB Planner</title>
+<link rel='stylesheet' href='css/styles.css'>
+</head>
+<body>
+<!-- BETTER Version 1
+Purpose: Provide a simple front-end for collecting race and availability information.
+The interface is intentionally minimal to support future expansion.
+-->
+<header>
+<h1>BETTER</h1>
+<p>XC Mountain Bike Training Planner</p>
+</header>
+<main>
+<section class='card'>
+<h2>Race Information</h2>
+<label>Target Race Date</label>
+<input type='date' id='raceDate'>
+</section>
+<section class='card'>
+<h2>Availability</h2>
+<label>Available Days</label>
+<div id='days'>
+<label><input type='checkbox'> Mon</label>
+<label><input type='checkbox'> Tue</label>
+<label><input type='checkbox'> Wed</label>
+<label><input type='checkbox'> Thu</label>
+<label><input type='checkbox'> Fri</label>
+<label><input type='checkbox'> Sat</label>
+<label><input type='checkbox'> Sun</label>
+</div>
+</section>
+<section class='card'>
+<h2>Existing Activity</h2>
+<input type='text' id='activityName' placeholder='Water Polo'>
+<input type='number' id='activityPoints' placeholder='Fatigue Points'>
+</section>
+<button id='generateBtn'>Generate Plan</button>
+<section class='card'>
+<h2>Output</h2>
+<div id='output'>Training plan will appear here.</div>
+</section>
+</main>
+<script src='js/app.js'></script>
+</body>
+</html>
