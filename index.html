@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b0d10">
-  <meta name="description" content="A simple, reliable interval timer for cycling and training.">
+  <meta name="description" content="BETTER Interval Coach — a cycling interval timer with voice, sound and vibration cues.">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="css/styles.css">
   <title>BETTER Interval Coach</title>
@@ -12,11 +15,8 @@
 <body>
   <div class="app-shell">
     <header class="topbar">
-      <div>
-        <span class="eyebrow">BETTER</span>
-        <h1>Interval Coach</h1>
-      </div>
-      <button id="soundToggle" class="icon-button" aria-label="Toggle sound" title="Sound">🔊</button>
+      <div><span class="eyebrow">BETTER</span><h1>Interval Coach</h1></div>
+      <button id="soundToggle" class="icon-button" aria-label="Toggle sound">🔊</button>
     </header>
 
     <main>
@@ -24,7 +24,7 @@
         <div class="hero-copy">
           <p class="eyebrow">TRAIN HARD. STAY ON TIME.</p>
           <h2>Set your workout.</h2>
-          <p class="muted">Big cues. Simple controls. No need to look at your phone while riding.</p>
+          <p class="muted">Designed for riding: large cues, simple controls and no need to stare at your phone.</p>
         </div>
 
         <div class="presets" aria-label="Workout presets">
@@ -34,78 +34,36 @@
         </div>
 
         <div class="settings-card">
-          <div class="setting-row">
-            <div class="setting-copy">
-              <span class="setting-label">Interval</span>
-              <strong id="workValue">04:00</strong>
-            </div>
-            <input id="workSlider" type="range" min="15" max="900" step="15" value="240" aria-label="Interval duration">
-            <div class="range-labels"><span>15s</span><span>15m</span></div>
-          </div>
-
-          <div class="setting-row">
-            <div class="setting-copy">
-              <span class="setting-label">Intervals</span>
-              <strong id="countValue">4</strong>
-            </div>
-            <input id="countSlider" type="range" min="1" max="20" step="1" value="4" aria-label="Number of intervals">
-            <div class="range-labels"><span>1</span><span>20</span></div>
-          </div>
-
-          <div class="setting-row">
-            <div class="setting-copy">
-              <span class="setting-label">Rest</span>
-              <strong id="restValue">03:00</strong>
-            </div>
-            <input id="restSlider" type="range" min="0" max="600" step="15" value="180" aria-label="Rest duration">
-            <div class="range-labels"><span>0s</span><span>10m</span></div>
-          </div>
+          <div class="setting-row"><div class="setting-copy"><span class="setting-label">Interval</span><strong id="workValue">04:00</strong></div><input id="workSlider" type="range" min="15" max="900" step="15" value="240"><div class="range-labels"><span>15s</span><span>15m</span></div></div>
+          <div class="setting-row"><div class="setting-copy"><span class="setting-label">Intervals</span><strong id="countValue">4</strong></div><input id="countSlider" type="range" min="1" max="20" value="4"><div class="range-labels"><span>1</span><span>20</span></div></div>
+          <div class="setting-row"><div class="setting-copy"><span class="setting-label">Rest</span><strong id="restValue">03:00</strong></div><input id="restSlider" type="range" min="0" max="600" step="15" value="180"><div class="range-labels"><span>0s</span><span>10m</span></div></div>
         </div>
 
         <div class="options-card">
-          <label class="switch-row">
-            <span><strong>Countdown</strong><small>3-second warning before each change</small></span>
-            <input id="countdownToggle" type="checkbox" checked>
-            <span class="switch"></span>
-          </label>
-          <label class="switch-row">
-            <span><strong>Vibration</strong><small>Buzz at interval and rest changes</small></span>
-            <input id="vibrationToggle" type="checkbox" checked>
-            <span class="switch"></span>
-          </label>
+          <label class="switch-row"><span><strong>Countdown</strong><small>3, 2, 1 before each change</small></span><input id="countdownToggle" type="checkbox" checked><span class="switch"></span></label>
+          <label class="switch-row"><span><strong>Vibration</strong><small>Buzz at interval and rest changes</small></span><input id="vibrationToggle" type="checkbox" checked><span class="switch"></span></label>
+          <label class="switch-row"><span><strong>Voice cues</strong><small>Say “Interval start” and count down</small></span><input id="voiceToggle" type="checkbox" checked><span class="switch"></span></label>
+        </div>
+
+        <div class="voice-card">
+          <div><strong>Your voice</strong><small>Record your own cue once. It stays on this device.</small></div>
+          <button id="recordVoiceButton" class="secondary-button">Record</button>
+          <div id="voiceStatus" class="voice-status">No recording yet</div>
+          <button id="clearVoiceButton" class="text-button">Clear recording</button>
         </div>
 
         <button id="startButton" class="primary-button">Start workout <span>→</span></button>
-        <p class="fine-print">Keep this tab open during your workout. Tap the screen once after starting if your phone asks for audio permission.</p>
+        <p class="fine-print">For reliable cues while riding, keep the app open and screen awake. Android may restrict audio when the browser is fully backgrounded.</p>
       </section>
 
       <section id="timerView" class="view hidden">
-        <div class="timer-top">
-          <button id="backButton" class="text-button">← Setup</button>
-          <span id="phaseCount" class="pill">Interval 1 / 4</span>
-        </div>
-
-        <div id="timerCard" class="timer-card work-phase">
-          <span id="phaseLabel" class="phase-label">INTERVAL</span>
-          <div id="timerDisplay" class="timer-display">04:00</div>
-          <div id="nextLabel" class="next-label">Next: Rest</div>
-          <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
-        </div>
-
-        <div class="timer-actions">
-          <button id="pauseButton" class="secondary-button">Pause</button>
-          <button id="skipButton" class="secondary-button">Skip</button>
-        </div>
+        <div class="timer-top"><button id="backButton" class="text-button">← Setup</button><span id="phaseCount" class="pill">Interval 1 / 4</span></div>
+        <div id="timerCard" class="timer-card work-phase"><span id="phaseLabel" class="phase-label">INTERVAL</span><div id="timerDisplay" class="timer-display">04:00</div><div id="nextLabel" class="next-label">Next: Rest</div><div class="progress-track"><div id="progressBar" class="progress-bar"></div></div></div>
+        <div class="timer-actions"><button id="pauseButton" class="secondary-button">Pause</button><button id="skipButton" class="secondary-button">Skip</button></div>
         <button id="stopButton" class="danger-button">End workout</button>
       </section>
 
-      <section id="completeView" class="view hidden complete-view">
-        <div class="complete-icon">✓</div>
-        <p class="eyebrow">WORKOUT COMPLETE</p>
-        <h2>Session done.</h2>
-        <p id="summaryText" class="muted"></p>
-        <button id="againButton" class="primary-button">Set up another workout <span>→</span></button>
-      </section>
+      <section id="completeView" class="view hidden complete-view"><div class="complete-icon">✓</div><p class="eyebrow">WORKOUT COMPLETE</p><h2>Session done.</h2><p id="summaryText" class="muted"></p><button id="againButton" class="primary-button">Set up another workout <span>→</span></button></section>
     </main>
   </div>
   <script src="js/app.js"></script>
