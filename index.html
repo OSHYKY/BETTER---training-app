@@ -1,50 +1,113 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
-<meta charset='UTF-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>BETTER - XC MTB Planner</title>
-<link rel='stylesheet' href='css/styles.css'>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d10">
+  <meta name="description" content="A simple, reliable interval timer for cycling and training.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/styles.css">
+  <title>BETTER Interval Coach</title>
 </head>
 <body>
-<!-- BETTER Version 1
-Purpose: Provide a simple front-end for collecting race and availability information.
-The interface is intentionally minimal to support future expansion.
--->
-<header>
-<h1>BETTER</h1>
-<p>XC Mountain Bike Training Planner</p>
-</header>
-<main>
-<section class='card'>
-<h2>Race Information</h2>
-<label>Target Race Date</label>
-<input type='date' id='raceDate'>
-</section>
-<section class='card'>
-<h2>Availability</h2>
-<label>Available Days</label>
-<div id='days'>
-<label><input type='checkbox'> Mon</label>
-<label><input type='checkbox'> Tue</label>
-<label><input type='checkbox'> Wed</label>
-<label><input type='checkbox'> Thu</label>
-<label><input type='checkbox'> Fri</label>
-<label><input type='checkbox'> Sat</label>
-<label><input type='checkbox'> Sun</label>
-</div>
-</section>
-<section class='card'>
-<h2>Existing Activity</h2>
-<input type='text' id='activityName' placeholder='Water Polo'>
-<input type='number' id='activityPoints' placeholder='Fatigue Points'>
-</section>
-<button id='generateBtn'>Generate Plan</button>
-<section class='card'>
-<h2>Output</h2>
-<div id='output'>Training plan will appear here.</div>
-</section>
-</main>
-<script src='js/app.js'></script>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <span class="eyebrow">BETTER</span>
+        <h1>Interval Coach</h1>
+      </div>
+      <button id="soundToggle" class="icon-button" aria-label="Toggle sound" title="Sound">🔊</button>
+    </header>
+
+    <main>
+      <section id="setupView" class="view">
+        <div class="hero-copy">
+          <p class="eyebrow">TRAIN HARD. STAY ON TIME.</p>
+          <h2>Set your workout.</h2>
+          <p class="muted">Big cues. Simple controls. No need to look at your phone while riding.</p>
+        </div>
+
+        <div class="presets" aria-label="Workout presets">
+          <button class="preset" data-preset="quick">4 × 4 min</button>
+          <button class="preset" data-preset="power">6 × 3 min</button>
+          <button class="preset" data-preset="custom">Custom</button>
+        </div>
+
+        <div class="settings-card">
+          <div class="setting-row">
+            <div class="setting-copy">
+              <span class="setting-label">Interval</span>
+              <strong id="workValue">04:00</strong>
+            </div>
+            <input id="workSlider" type="range" min="15" max="900" step="15" value="240" aria-label="Interval duration">
+            <div class="range-labels"><span>15s</span><span>15m</span></div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-copy">
+              <span class="setting-label">Intervals</span>
+              <strong id="countValue">4</strong>
+            </div>
+            <input id="countSlider" type="range" min="1" max="20" step="1" value="4" aria-label="Number of intervals">
+            <div class="range-labels"><span>1</span><span>20</span></div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-copy">
+              <span class="setting-label">Rest</span>
+              <strong id="restValue">03:00</strong>
+            </div>
+            <input id="restSlider" type="range" min="0" max="600" step="15" value="180" aria-label="Rest duration">
+            <div class="range-labels"><span>0s</span><span>10m</span></div>
+          </div>
+        </div>
+
+        <div class="options-card">
+          <label class="switch-row">
+            <span><strong>Countdown</strong><small>3-second warning before each change</small></span>
+            <input id="countdownToggle" type="checkbox" checked>
+            <span class="switch"></span>
+          </label>
+          <label class="switch-row">
+            <span><strong>Vibration</strong><small>Buzz at interval and rest changes</small></span>
+            <input id="vibrationToggle" type="checkbox" checked>
+            <span class="switch"></span>
+          </label>
+        </div>
+
+        <button id="startButton" class="primary-button">Start workout <span>→</span></button>
+        <p class="fine-print">Keep this tab open during your workout. Tap the screen once after starting if your phone asks for audio permission.</p>
+      </section>
+
+      <section id="timerView" class="view hidden">
+        <div class="timer-top">
+          <button id="backButton" class="text-button">← Setup</button>
+          <span id="phaseCount" class="pill">Interval 1 / 4</span>
+        </div>
+
+        <div id="timerCard" class="timer-card work-phase">
+          <span id="phaseLabel" class="phase-label">INTERVAL</span>
+          <div id="timerDisplay" class="timer-display">04:00</div>
+          <div id="nextLabel" class="next-label">Next: Rest</div>
+          <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+        </div>
+
+        <div class="timer-actions">
+          <button id="pauseButton" class="secondary-button">Pause</button>
+          <button id="skipButton" class="secondary-button">Skip</button>
+        </div>
+        <button id="stopButton" class="danger-button">End workout</button>
+      </section>
+
+      <section id="completeView" class="view hidden complete-view">
+        <div class="complete-icon">✓</div>
+        <p class="eyebrow">WORKOUT COMPLETE</p>
+        <h2>Session done.</h2>
+        <p id="summaryText" class="muted"></p>
+        <button id="againButton" class="primary-button">Set up another workout <span>→</span></button>
+      </section>
+    </main>
+  </div>
+  <script src="js/app.js"></script>
 </body>
 </html>
