@@ -1,0 +1,9 @@
+{
+  "name": "BETTER Interval Coach",
+  "short_name": "Intervals",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0b0d10",
+  "theme_color": "#0b0d10",
+  "description": "A simple interval timer for cycling and training."
+}
