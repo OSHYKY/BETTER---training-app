@@ -8,5 +8,5 @@
   "background_color": "#0b0d10",
   "theme_color": "#0b0d10",
   "description": "A cycling interval timer with voice, sound and vibration cues.",
-  "icons": []
+  "icons": [{"src":"icons/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }
