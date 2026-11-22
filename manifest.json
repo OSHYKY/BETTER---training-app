@@ -1,12 +1,19 @@
 {
-  "name": "BETTER Interval Coach",
-  "short_name": "Intervals",
+  "name": "BETTER Training",
+  "short_name": "BETTER",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0b0d10",
   "theme_color": "#0b0d10",
-  "description": "A cycling interval timer with voice, sound and vibration cues.",
-  "icons": [{"src":"icons/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+  "description": "Local-first XC training planner and interval coach.",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }
