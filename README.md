@@ -8,11 +8,14 @@ BETTER is a local-first training planner for XC mountain bikers, with a separate
 - Athlete setup: event date, available weekly hours and training days.
 - Existing sport commitments can be added to the calendar.
 - Suggested sessions across quality, endurance, skills, strength and recovery.
-- Click any calendar day to open a daily agenda; add or edit planned activities, mark them complete, record actual duration and RPE, and add session notes.\n- Completed planned activities flow into the training log and workload monitor; changing completion status recalculates logged load.\n- Session logging with duration, perceived effort (RPE), and notes.
+- Click any calendar day to open a daily agenda; add or edit planned activities, mark them complete, record actual duration and RPE, and add session notes.
+- Completed planned activities flow into the training log and workload monitor; changing completion status recalculates logged load.
+- Session logging with duration, perceived effort (RPE), and notes.
 - Simple workload estimate: duration in minutes × RPE.
 - Fatigue indicators compare the last 7 days with the 28-day weekly average and include self-reported fatigue, sleep and leg freshness.
 - Browser-local storage plus JSON backup export/import.
-- Searchable workout library at workouts.html covering cycling intervals, endurance, gym strength, power, skills and recovery.\n- Existing interval timer remains available at interval.html and continues to use js/app.js and css/styles.css.
+- Searchable workout library at workouts.html covering cycling intervals, endurance, gym strength, power, skills and recovery.
+- Existing interval timer remains available at interval.html and continues to use js/app.js and css/styles.css.
 
 ## Run locally
 
