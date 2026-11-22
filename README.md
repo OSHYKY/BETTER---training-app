@@ -52,3 +52,5 @@ The generated plan is a basic scheduling aid, not an individualized coaching pre
 ## Automated checks
 
 Use Node.js 20 or newer and run `npm test`. GitHub Actions runs the same test suite on pushes to `main` and pull requests targeting `main`.
+
+- The service worker precaches the planner, training engine, workout library and interval coach so the full app shell is available offline after installation.
