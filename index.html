@@ -1,71 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0b0d10">
-  <meta name="description" content="BETTER Interval Coach — a cycling interval timer with voice, sound and vibration cues.">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="css/styles.css">
-  <title>BETTER Interval Coach</title>
-</head>
-<body>
-  <div class="app-shell">
-    <header class="topbar">
-      <div><span class="eyebrow">BETTER</span><h1>Interval Coach</h1></div>
-      <button id="soundToggle" class="icon-button" aria-label="Toggle sound">🔊</button>
-    </header>
-
-    <main>
-      <section id="setupView" class="view">
-        <div class="hero-copy">
-          <p class="eyebrow">TRAIN HARD. STAY ON TIME.</p>
-          <h2>Set your workout.</h2>
-          <p class="muted">Designed for riding: large cues, simple controls and no need to stare at your phone.</p>
-        </div>
-
-        <div class="presets" aria-label="Workout presets">
-          <button class="preset" data-preset="quick">4 × 4 min</button>
-          <button class="preset" data-preset="power">6 × 3 min</button>
-          <button class="preset" data-preset="custom">Custom</button>
-        </div>
-
-        <div class="settings-card">
-          <div class="setting-row"><div class="setting-copy"><span class="setting-label">Interval</span><strong id="workValue">04:00</strong></div><input id="workSlider" type="range" min="15" max="2700" step="15" value="240"><div class="range-labels"><span>15s</span><span>45m</span></div></div>
-          <div class="setting-row"><div class="setting-copy"><span class="setting-label">Intervals</span><strong id="countValue">4</strong></div><input id="countSlider" type="range" min="1" max="20" value="4"><div class="range-labels"><span>1</span><span>20</span></div></div>
-          <div class="setting-row"><div class="setting-copy"><span class="setting-label">Rest</span><strong id="restValue">03:00</strong></div><input id="restSlider" type="range" min="0" max="600" step="15" value="180"><div class="range-labels"><span>0s</span><span>10m</span></div></div>
-        </div>
-
-        <div class="options-card">
-          <label class="switch-row"><span><strong>Countdown</strong><small>3, 2, 1 before each change</small></span><input id="countdownToggle" type="checkbox" checked><span class="switch"></span></label>
-          <label class="switch-row"><span><strong>Vibration</strong><small>Buzz at interval and rest changes</small></span><input id="vibrationToggle" type="checkbox" checked><span class="switch"></span></label>
-          <label class="switch-row"><span><strong>Voice cues</strong><small>Say “Interval start” and count down</small></span><input id="voiceToggle" type="checkbox" checked><span class="switch"></span></label>
-        </div>
-
-        <div class="voice-card">
-          <div><strong>Your voice</strong><small>Record your own cue once. It stays on this device.</small></div>
-          <button id="recordVoiceButton" class="secondary-button">Record</button>
-          <div id="voiceStatus" class="voice-status">No recording yet</div>
-          <button id="clearVoiceButton" class="text-button">Clear recording</button>
-        </div>
-
-        <button id="startButton" class="primary-button">Start workout <span>→</span></button>
-        <p class="fine-print">For reliable cues while riding, keep the app open and screen awake. Android may restrict audio when the browser is fully backgrounded.</p>
-      </section>
-
-      <section id="timerView" class="view hidden">
-        <div class="timer-top"><button id="backButton" class="text-button">← Setup</button><span id="phaseCount" class="pill">Interval 1 / 4</span></div>
-        <div id="timerCard" class="timer-card work-phase"><span id="phaseLabel" class="phase-label">INTERVAL</span><div id="timerDisplay" class="timer-display">04:00</div><div id="nextLabel" class="next-label">Next: Rest</div><div class="progress-track"><div id="progressBar" class="progress-bar"></div></div></div>
-        <div class="timer-actions"><button id="pauseButton" class="secondary-button">Pause</button><button id="skipButton" class="secondary-button">Skip</button></div>
-        <button id="stopButton" class="danger-button">End workout</button>
-      </section>
-
-      <section id="completeView" class="view hidden complete-view"><div class="complete-icon">✓</div><p class="eyebrow">WORKOUT COMPLETE</p><h2>Session done.</h2><p id="summaryText" class="muted"></p><button id="againButton" class="primary-button">Set up another workout <span>→</span></button></section>
-    </main>
-  </div>
-  <script src="js/app.js"></script>
-</body>
-</html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b0e10"><meta name="description" content="BETTER training planner for XC mountain bikers"><link rel="stylesheet" href="css/planner.css"><link rel="manifest" href="manifest.json"><title>BETTER Training</title></head>
+<body><div class="shell"><header class="topbar"><a class="brand" href="#">BETTER <small>TRAINING SYSTEM</small></a><span id="saveState">Saved on this device</span></header>
+<nav class="tabs"><button class="tab active" data-view="dashboard">Overview</button><button class="tab" data-view="plan">Weekly calendar</button><button class="tab" data-view="log">Session log</button><button class="tab" data-view="settings">Athlete setup</button></nav>
+<main>
+<section id="dashboard" class="view active"><div class="hero"><p class="eyebrow">YOUR TRAINING, IN CONTEXT</p><h1>Build consistency.<br><em>Ride stronger.</em></h1><p>Training structure that accounts for your actual life.</p></div><div class="notice">Start by adding your next event, available days and other regular sport in Athlete setup.</div>
+<div class="metrics"><article><small>Next event</small><b id="metricEvent">Not set</b><span id="metricCountdown">Add an event date</span></article><article><small>This week's plan</small><b id="metricSessions">0 sessions</b><span id="metricHours">Set availability</span></article><article><small>Logged this week</small><b id="metricLogged">0 min</b><span id="metricLoad">No activity yet</span></article><article><small>Fatigue monitor</small><b id="metricWellness">Building baseline</b><span id="metricWellnessNote">Log training and recovery</span></article></div>
+<div class="section-head"><h2>Coming sessions</h2><button data-goto="plan">Full calendar →</button></div><div id="upcomingList" class="session-list">Your sessions will appear here.</div>
+<div class="section-head"><h2>Daily recovery check-in</h2></div><form id="checkinForm" class="panel checkin"><label>Fatigue <output id="fatigueOutput">3 / 5</output><input id="fatigueInput" type="range" min="1" max="5" value="3"></label><label>Sleep quality <output id="sleepOutput">3 / 5</output><input id="sleepInput" type="range" min="1" max="5" value="3"></label><label>Leg freshness <output id="freshOutput">3 / 5</output><input id="freshInput" type="range" min="1" max="5" value="3"></label><button class="primary">Save check-in</button><small>Self-reported indicators, not medical measurements.</small></form>
+</section>
+<section id="plan" class="view"><div class="page-head"><div><p class="eyebrow">PLAN THE WEEK</p><h1>Weekly calendar</h1><p>Suggested training and existing commitments in one view.</p></div><button class="primary" id="regenerateButton">Regenerate plan</button></div><div class="week-nav"><button id="prevWeek">← Previous</button><b id="weekLabel">This week</b><button id="nextWeek">Next →</button></div><p id="planPhase" class="phase">Base building</p><div id="weekCalendar" class="calendar"></div><div class="panel"><h3>How fatigue is monitored</h3><p>Session load is estimated as duration in minutes × session RPE (1–10). BETTER compares the latest seven days with your average weekly load across 28 days and considers your daily fatigue, sleep and leg-freshness check-ins. These are simple personal indicators, not validated clinical thresholds or injury predictions. Use judgement; pain, illness or unusual exhaustion are reasons to stop and seek appropriate advice.</p></div></section>
+<section id="log" class="view"><div class="page-head"><div><p class="eyebrow">TRAINING HISTORY</p><h1>Session log</h1><p>Record completed sessions to make the fatigue monitor useful.</p></div><button class="primary" id="addSessionButton">+ Log session</button></div><div class="metrics three"><article><small>Last 7 days</small><b id="logMinutes">0 min</b></article><article><small>Estimated load</small><b id="logLoad">0</b></article><article><small>Sessions</small><b id="logCount">0</b></article></div><div id="logList" class="session-list">No sessions logged yet.</div></section>
+<section id="settings" class="view"><div class="page-head"><div><p class="eyebrow">ATHLETE PROFILE</p><h1>Set up your plan</h1><p>Tell BETTER what you are training for and what time you have.</p></div></div><form id="profileForm" class="panel form-grid"><label>Next event name<input id="eventName" maxlength="70" placeholder="Scottish XC race"></label><label>Event date<input id="eventDate" type="date"></label><label>Available hours per week<input id="weeklyHours" type="number" min="1" max="30" step=".5" value="6"></label><fieldset id="dayPicker"><legend>Days available to train</legend><label><input type="checkbox" value="1" checked> Mon</label><label><input type="checkbox" value="2"> Tue</label><label><input type="checkbox" value="3" checked> Wed</label><label><input type="checkbox" value="4"> Thu</label><label><input type="checkbox" value="5" checked> Fri</label><label><input type="checkbox" value="6" checked> Sat</label><label><input type="checkbox" value="0"> Sun</label></fieldset><div class="full"><h3>Other regular sport / commitments</h3><p class="muted">Add football, swimming, water polo, gym or other activities so the calendar can account for them.</p><div id="activityRows"></div><button type="button" id="addActivityButton" class="secondary">+ Add activity</button></div><div class="full form-actions"><button class="primary">Save profile & build calendar</button></div></form>
+<div class="panel strava"><h2>Strava connection</h2><p>Activity import is designed to use Strava OAuth through a secure server. Never put your Strava client secret in this website's JavaScript or repository.</p><p id="stravaStatus">Not connected. Secure server setup required.</p><button type="button" class="secondary" id="stravaConnect">Connect Strava</button><button type="button" class="secondary" id="stravaSync">Sync activities</button><p class="muted">Live authorisation requires the backend and Strava API credentials described in the integration guide.</p></div>
+<div class="panel"><h2>Your data</h2><p>Everything currently stays in this browser. Export a backup before changing devices.</p><button id="exportButton" class="secondary">Export backup</button><label class="secondary upload">Import backup <input id="importFile" type="file" accept="application/json"></label><button id="resetButton" class="danger">Reset all data</button></div>
+</section></main><footer>BETTER · LOCAL-FIRST TRAINING SYSTEM</footer></div>
+<dialog id="sessionDialog"><form id="sessionForm"><h2>Log a session</h2><input id="sessionId" type="hidden"><label>Session name<input id="sessionName" required></label><label>Date<input id="sessionDate" type="date" required></label><label>Sport<select id="sessionType"><option>Cycling</option><option>Intervals</option><option>Strength</option><option>Football</option><option>Swimming</option><option>Water polo</option><option>Running</option><option>Other</option></select></label><label>Duration (minutes)<input id="sessionDuration" type="number" min="1" max="1000" required></label><label>Effort (RPE 1–10)<input id="sessionRpe" type="number" min="1" max="10" value="5" required></label><div class="dialog-actions"><button type="button" id="closeDialog" class="secondary">Cancel</button><button class="primary">Save session</button></div></form></dialog><div id="toast" role="status"></div><script src="js/planner.js"></script></body></html>
