@@ -40,3 +40,15 @@ The generated plan is a basic scheduling aid, not an individualized coaching pre
 - css/planner.css — planner styles
 - css/styles.css — interval timer styles
 - docs/strava-integration.md — secure OAuth integration contract
+
+## Training intelligence and analytics
+
+- `js/training-engine.js` analyses recent session load, explicitly recorded planned-versus-actual RPE feedback, recent recovery check-ins, weekly load trends and session intensity distribution.
+- The dashboard presents conservative recommendations. A recovery adjustment is user-triggered, reduces only the next uncompleted quality session by 20%, and can be reversed to the saved original values.
+- Marking a planned activity complete with the checkbox alone records an estimated load; it is not treated as measured actual-effort feedback. Editing a completed activity and entering actual duration/RPE records explicit feedback.
+- Weekly plan generation spaces demanding sessions, accounts for fixed high-effort commitments, includes a target event on its date and preserves completed/edited activities when regenerating.
+- Analytics are descriptive tracking aids, not validated fitness, medical or injury-risk scores.
+
+## Automated checks
+
+Use Node.js 20 or newer and run `npm test`. GitHub Actions runs the same test suite on pushes to `main` and pull requests targeting `main`.
