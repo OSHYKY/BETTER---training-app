@@ -12,7 +12,7 @@ BETTER is a local-first training planner for XC mountain bikers, with a separate
 - Simple workload estimate: duration in minutes × RPE.
 - Fatigue indicators compare the last 7 days with the 28-day weekly average and include self-reported fatigue, sleep and leg freshness.
 - Browser-local storage plus JSON backup export/import.
-- Existing interval timer remains available at interval.html and continues to use js/app.js and css/styles.css.
+- Searchable workout library at workouts.html covering cycling intervals, endurance, gym strength, power, skills and recovery.\n- Existing interval timer remains available at interval.html and continues to use js/app.js and css/styles.css.
 
 ## Run locally
 
