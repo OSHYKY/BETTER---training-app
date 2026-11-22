@@ -60,3 +60,7 @@ $("importFile").onchange=function(e){var f=e.target.files[0];if(!f)return;var r=
 $("resetButton").onclick=function(){if(confirm("Delete all BETTER data stored in this browser?")){data=fresh();save();location.reload();}};
 fillProfile();render();
 })();
+function stravaStatus(){var e=$("stravaStatus");if(e)e.textContent="Strava is not connected. A secure OAuth server must be deployed first.";}
+if($("stravaConnect"))$("stravaConnect").onclick=function(){window.location.href="/api/strava/auth";};
+if($("stravaSync"))$("stravaSync").onclick=async function(){try{var r=await fetch("/api/strava/sync",{method:"POST",credentials:"same-origin"});if(!r.ok)throw Error("Sync endpoint unavailable");var payload=await r.json(),items=payload.activities||[],added=0;items.forEach(function(a){var id=String(a.id);if(!a.id||data.sessions.some(function(s){return s.externalId===id;}))return;data.sessions.push({id:"strava-"+id,externalId:id,name:a.name||"Strava activity",date:(a.start_date_local||"").slice(0,10),type:(a.type==="Ride"||a.sport_type==="MountainBikeRide")?"Cycling":(a.type||"Other"),minutes:Math.round((a.moving_time||0)/60),rpe:5,kind:"logged",notes:"Imported from Strava. Edit RPE for a better load estimate."});added++;});save();render();$("stravaStatus").textContent="Connected. Imported "+added+" new activities.";msg("Strava sync complete: "+added+" new activities.");}catch(err){msg("Strava sync unavailable. Deploy and configure the secure OAuth backend first.");}};
+stravaStatus();
