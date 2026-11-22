@@ -18,14 +18,23 @@ function weekSessions(start,end){return data.sessions.filter(function(s){var d=d
 function weekLoad(){var t=today(),a=weekSessions(plus(t,-6),plus(t,1)).reduce(function(n,s){return n+load(s);},0),b=weekSessions(plus(t,-27),plus(t,1)).reduce(function(n,s){return n+load(s);},0)/4;return {acute:a,base:b,ratio:b?a/b:null};}
 function recovery(){var c=data.checkins.slice().sort(function(a,b){return b.date.localeCompare(a.date);})[0],w=weekLoad();if(c&&(c.fatigue>=5||c.sleep<=1||c.legs<=1))return "Recovery priority";if(w.ratio&&w.ratio>1.5)return "Recent load elevated";if(c&&c.fatigue>=4)return "Fatigue elevated";return data.sessions.length?"No flag raised":"Building baseline";}
 function phase(start){if(!data.profile.eventDate)return "Base building";var days=Math.ceil((date(data.profile.eventDate)-start)/86400000);return days<0?"Post-event":days<=7?"Race week":days<=21?"Taper":days<=56?"Specific build":"Base building";}
-function makeWeek(start){var key=iso(start);if(data.plan[key]){data.plan[key].forEach(function(s,i){if(!s.id)s.id="plan-"+s.date+"-"+i;});return data.plan[key];}var p=data.profile,days=p.days.slice(),n=Math.max(1,days.length),mins=Math.round((Number(p.hours)||6)*60/n),slots=days.slice().sort(function(a,b){return ((b===0||b===6)?2:0)-((a===0||a===6)?2:0);}),hard=slots.slice(0,n>=4?2:1),arr=[];
-for(var i=0;i<7;i++){var d=plus(start,i),dow=d.getDay(),fixed=p.activities.filter(function(a){return Number(a.day)===dow;});if(fixed.length){fixed.forEach(function(a){arr.push({date:iso(d),name:a.name,type:"Other sport",minutes:Number(a.minutes)||60,rpe:Number(a.rpe)||6,kind:"fixed"});});continue;}if(days.indexOf(dow)<0)continue;
+function makeWeek(start){var key=iso(start);if(data.plan[key]){data.plan[key].forEach(function(s,i){if(!s.id)s.id="plan-"+s.date+"-"+i;});return data.plan[key];}
+var p=data.profile,days=p.days.slice(),fixedDays=p.activities.map(function(a){return Number(a.day);}),trainDays=days.filter(function(d){return fixedDays.indexOf(d)<0;}),fixedMinutes=p.activities.reduce(function(n,a){return n+(Number(a.minutes)||60);},0),weeklyMinutes=(Number(p.hours)||6)*60,mins=Math.max(25,Math.round(Math.max(0,weeklyMinutes-fixedMinutes)/Math.max(1,trainDays.length))),phaseName=phase(start),blocked=[];
+p.activities.forEach(function(a){if(Number(a.rpe)>=7){var day=Number(a.day);blocked.push(day,(day+6)%7,(day+1)%7);}});
+var candidates=trainDays.filter(function(d){return blocked.indexOf(d)<0;}),qualityCount=phaseName==="Race week"||phaseName==="Post-event"?0:(phaseName==="Taper"?(candidates.length>=3?1:0):(candidates.length>=5?2:(candidates.length>=3?1:0))),hard=[];
+if(qualityCount===1&&candidates.length)hard=[candidates[Math.floor((candidates.length-1)/2)]];
+if(qualityCount===2&&candidates.length>=2)hard=[candidates[0],candidates[candidates.length-1]];
+var strengthDay=trainDays.find(function(d){return hard.indexOf(d)<0;});var enduranceDay=trainDays.find(function(d){return (d===0||d===6)&&hard.indexOf(d)<0;});var arr=[];
+for(var i=0;i<7;i++){var d=plus(start,i),dow=d.getDay(),dateKey=iso(d);
+if(p.eventDate===dateKey){arr.push({date:dateKey,name:(p.event||"Target")+" event",type:"Race",minutes:90,rpe:8,kind:"event"});continue;}
+var fixed=p.activities.filter(function(a){return Number(a.day)===dow;});if(fixed.length){fixed.forEach(function(a){arr.push({date:dateKey,name:a.name,type:"Other sport",minutes:Number(a.minutes)||60,rpe:Number(a.rpe)||6,kind:"fixed"});});continue;}
+if(days.indexOf(dow)<0)continue;
 var type="Skills",name="Skills and easy aerobic ride",duration=Math.min(60,mins),rpe=3;
-if(phase(start)==="Race week"){type="Recovery";name="Easy spin or rest";duration=Math.min(35,mins);rpe=2;}
-else if(hard.indexOf(dow)>=0){type="Quality";name="XC intervals / race-specific ride";duration=Math.min(90,mins);rpe=7;}
-else if((dow===0||dow===6)&&mins>=75){type="Endurance";name="Aerobic endurance ride";duration=Math.min(150,mins);rpe=4;}
-else if(dow%2===0){type="Strength";name="Strength and trunk stability";duration=Math.min(50,mins);rpe=5;}
-arr.push({date:iso(d),name:name,type:type,minutes:duration,rpe:rpe,kind:"planned"});}
+if(phaseName==="Race week"||phaseName==="Post-event"){type="Recovery";name="Easy spin or rest";duration=Math.min(35,mins);rpe=2;}
+else if(hard.indexOf(dow)>=0){type="Quality";name=phaseName==="Taper"?"Short race-sharpening intervals":"XC intervals / race-specific ride";duration=Math.min(phaseName==="Taper"?55:90,mins);rpe=phaseName==="Taper"?6:7;}
+else if(dow===enduranceDay&&mins>=75){type="Endurance";name="Aerobic endurance ride";duration=Math.min(180,mins);rpe=4;}
+else if(dow===strengthDay&&trainDays.length>=2){type="Strength";name="Strength and trunk stability";duration=Math.min(50,mins);rpe=5;}
+arr.push({date:dateKey,name:name,type:type,minutes:duration,rpe:rpe,kind:"planned"});}
 arr.forEach(function(s,i){if(!s.id)s.id="plan-"+s.date+"-"+i;});data.plan[key]=arr;return arr;}
 function fmt(s){return date(s).toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});}
 function card(s){return '<article class="session-card"><div class="session-date">'+esc(fmt(s.date))+'</div><div><b>'+esc(s.name)+'</b><small>'+esc(s.type)+' · '+s.minutes+' min · RPE '+s.rpe+'</small></div><span class="tag">'+(s.kind==="fixed"?"Commitment":s.kind==="logged"?"Logged":"Planned")+'</span></article>';}
