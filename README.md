@@ -10,7 +10,8 @@ BETTER is a local-first training planner designed around real-life sport commitm
 - Custom workout designer: create reusable sessions with exercises, sets, reps/time, notes, duration and RPE; schedule saved workouts directly into the calendar.
 - Workout reference library covering cycling, strength, skills and recovery.
 - Session logging with duration, perceived effort (RPE), notes and planned-versus-actual feedback.
-- Recovery check-ins for fatigue, sleep quality and leg freshness.
+- Recovery check-ins for fatigue, sleep quality, leg freshness and actual sleep duration in hours.
+- Fourteen-day fatigue and sleep-duration trend graphs in Analytics; missing days are not interpolated.
 - Descriptive 7-day and 28-day workload trends and conservative training-response prompts. These are not validated medical or injury-risk scores.
 - Browser-local storage and JSON backup export/import.
 - Offline app shell through the service worker.
