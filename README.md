@@ -4,16 +4,16 @@ BETTER is a local-first training planner designed around real-life sport commitm
 
 ## Features
 
-- Weekly calendar with week navigation and editable daily agendas.
+- Weekly calendar with editable daily agendas and drag-and-drop session rescheduling; fixed commitments and race events stay locked.
 - Athlete setup for target events, available training days, weekly hours and fixed sport commitments.
-- Suggested sessions with an event-focused build and taper.
+- Suggested sessions with event-focused build and taper, supporting multiple season events.
 - Custom workout designer: create reusable sessions with exercises, sets, reps/time, notes, duration and RPE; schedule saved workouts directly into the calendar.
 - Workout reference library covering cycling, strength, skills and recovery.
 - Session logging with duration, perceived effort (RPE), notes and planned-versus-actual feedback.
 - Recovery check-ins for fatigue, sleep quality, leg freshness and actual sleep duration in hours.
 - Daily custom habit tracker with per-day completion checkboxes and saved history.
 - Analytics with selectable 7-, 14-, 30- and 90-day graphs for fatigue, sleep duration, sleep quality, leg freshness and daily habit completion, alongside training load and intensity distribution.
-- Descriptive 7-day and 28-day workload trends and conservative training-response prompts. These are not validated medical or injury-risk scores.
+- Descriptive workload trends, transparent daily readiness prompts and an automatic weekly review. These are not validated medical or injury-risk scores.
 - Browser-local storage and JSON backup export/import.
 - Offline app shell through the service worker.
 - Existing interval timer remains available at interval.html.
