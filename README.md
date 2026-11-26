@@ -11,7 +11,8 @@ BETTER is a local-first training planner designed around real-life sport commitm
 - Workout reference library covering cycling, strength, skills and recovery.
 - Session logging with duration, perceived effort (RPE), notes and planned-versus-actual feedback.
 - Recovery check-ins for fatigue, sleep quality, leg freshness and actual sleep duration in hours.
-- Fourteen-day fatigue and sleep-duration trend graphs in Analytics; missing days are not interpolated.
+- Daily custom habit tracker with per-day completion checkboxes and saved history.
+- Analytics with selectable 7-, 14-, 30- and 90-day graphs for fatigue, sleep duration, sleep quality, leg freshness and daily habit completion, alongside training load and intensity distribution.
 - Descriptive 7-day and 28-day workload trends and conservative training-response prompts. These are not validated medical or injury-risk scores.
 - Browser-local storage and JSON backup export/import.
 - Offline app shell through the service worker.
@@ -39,7 +40,7 @@ BETTER stores training data in this browser's local storage. There is no Strava 
 - workout-builder.html — custom workout designer and calendar scheduling
 - workouts.html — searchable workout reference library
 - interval.html — interval timer
-- js/planner.js — calendar, logging, recovery and local persistence
+- js/planner.js — calendar, logging, recovery, habits, analytics and local persistence
 - js/workout-builder.js — reusable workout templates and scheduling
 - js/training-engine.js — training-load and recovery analysis
 - js/app.js — interval timer logic
