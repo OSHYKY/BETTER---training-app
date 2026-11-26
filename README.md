@@ -1,56 +1,52 @@
 # BETTER Training App
 
-BETTER is a local-first training planner for XC mountain bikers, with a separate interval-coach route.
+BETTER is a local-first training planner designed around real-life sport commitments, event goals and individual training sessions.
 
-## Current implementation
+## Features
 
-- Weekly calendar with week navigation.
-- Athlete setup: event date, available weekly hours and training days.
-- Existing sport commitments can be added to the calendar.
-- Suggested sessions across quality, endurance, skills, strength and recovery.
-- Click any calendar day to open a daily agenda; add or edit planned activities, mark them complete, record actual duration and RPE, and add session notes.
-- Completed planned activities flow into the training log and workload monitor; changing completion status recalculates logged load.
-- Session logging with duration, perceived effort (RPE), and notes.
-- Simple workload estimate: duration in minutes × RPE.
-- Fatigue indicators compare the last 7 days with the 28-day weekly average and include self-reported fatigue, sleep and leg freshness.
-- Browser-local storage plus JSON backup export/import.
-- Searchable workout library at workouts.html covering cycling intervals, endurance, gym strength, power, skills and recovery.
-- Existing interval timer remains available at interval.html and continues to use js/app.js and css/styles.css.
+- Weekly calendar with week navigation and editable daily agendas.
+- Athlete setup for target events, available training days, weekly hours and fixed sport commitments.
+- Suggested sessions with an event-focused build and taper.
+- Custom workout designer: create reusable sessions with exercises, sets, reps/time, notes, duration and RPE; schedule saved workouts directly into the calendar.
+- Workout reference library covering cycling, strength, skills and recovery.
+- Session logging with duration, perceived effort (RPE), notes and planned-versus-actual feedback.
+- Recovery check-ins for fatigue, sleep quality and leg freshness.
+- Descriptive 7-day and 28-day workload trends and conservative training-response prompts. These are not validated medical or injury-risk scores.
+- Browser-local storage and JSON backup export/import.
+- Offline app shell through the service worker.
+- Existing interval timer remains available at interval.html.
 
 ## Run locally
 
-Serve the repository over HTTP (for example, use the VS Code Live Server extension or Python's local HTTP server), then open the root page. Browser storage is local to that browser and device. Export a backup before clearing browser data or moving devices.
+Serve the repository over HTTP (for example, use VS Code Live Server or Python's local HTTP server), then open the root page. Browser storage is local to that browser and device. Export a backup before clearing browser data or moving devices.
 
-## Strava
+## Data and privacy
 
-The app-side sync client and integration contract are documented in docs/strava-integration.md. Live Strava authorisation is not enabled until a secure server implements the documented OAuth endpoints and stores tokens privately. Never put STRAVA_CLIENT_SECRET or athlete refresh tokens in this repository or browser code.
+BETTER stores training data in this browser's local storage. There is no Strava connection or external account sync. Export a JSON backup to move data between devices.
 
-Official developer documentation: https://developers.strava.com/docs/authentication/
+## Training intelligence
 
-## Important limitations
-
-The generated plan is a basic scheduling aid, not an individualized coaching prescription. The fatigue indicators are simple estimates, not validated medical or injury-risk measures. Imported Strava activities do not contain a reliable perceived-effort value, so BETTER assigns a provisional RPE that the athlete should edit. No Garmin integration or AI coach is claimed.
+- Session load is estimated as duration in minutes multiplied by session RPE.
+- Recovery prompts use self-reported fatigue, sleep and leg-freshness check-ins alongside recent logged workload.
+- A recovery adjustment is user-triggered, reduces only the next uncompleted quality session by 20%, and can be reversed.
+- Marking a planned activity complete without entering actual effort records estimated load; editing a completed activity with actual duration/RPE records explicit feedback.
+- Generated plans are scheduling aids, not individualized coaching prescriptions. Adjust for health, experience, other sport and how you actually feel.
 
 ## Project structure
 
-- index.html — training dashboard and weekly calendar
-- interval.html — interval timer interface
-- js/planner.js — planning, session logging, local persistence and Strava client
-- js/app.js — existing interval timer logic
+- index.html — dashboard, athlete setup, weekly calendar and session log
+- workout-builder.html — custom workout designer and calendar scheduling
+- workouts.html — searchable workout reference library
+- interval.html — interval timer
+- js/planner.js — calendar, logging, recovery and local persistence
+- js/workout-builder.js — reusable workout templates and scheduling
+- js/training-engine.js — training-load and recovery analysis
+- js/app.js — interval timer logic
 - css/planner.css — planner styles
+- css/builder.css — workout designer styles
 - css/styles.css — interval timer styles
-- docs/strava-integration.md — secure OAuth integration contract
-
-## Training intelligence and analytics
-
-- `js/training-engine.js` analyses recent session load, explicitly recorded planned-versus-actual RPE feedback, recent recovery check-ins, weekly load trends and session intensity distribution.
-- The dashboard presents conservative recommendations. A recovery adjustment is user-triggered, reduces only the next uncompleted quality session by 20%, and can be reversed to the saved original values.
-- Marking a planned activity complete with the checkbox alone records an estimated load; it is not treated as measured actual-effort feedback. Editing a completed activity and entering actual duration/RPE records explicit feedback.
-- Weekly plan generation spaces demanding sessions, accounts for fixed high-effort commitments, includes a target event on its date and preserves completed/edited activities when regenerating.
-- Analytics are descriptive tracking aids, not validated fitness, medical or injury-risk scores.
+- sw.js — offline app-shell caching
 
 ## Automated checks
 
-Use Node.js 20 or newer and run `npm test`. GitHub Actions runs the same test suite on pushes to `main` and pull requests targeting `main`.
-
-- The service worker precaches the planner, training engine, workout library and interval coach so the full app shell is available offline after installation.
+Run npm test with Node.js 20 or newer. Training and fatigue indicators are tracking aids, not medical advice or injury predictions.
