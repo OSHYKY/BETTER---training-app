@@ -1,4 +1,4 @@
-const CACHE='better-training-v8';
+const CACHE='better-training-v9';
 const ASSETS=["./","./index.html","./css/planner.css","./js/planner.js","./js/training-engine.js","./workouts.html","./workout-builder.html","./css/builder.css","./js/workout-builder.js","./css/workouts.css","./js/workouts.js","./interval.html","./css/styles.css","./js/app.js","./manifest.json","./icons/icon.svg"];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim()))});
